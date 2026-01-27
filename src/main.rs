@@ -7,7 +7,7 @@ use tiny_http::{Method, Response, Server};
 impl Config {
     fn from_env() -> Self {
         Self {
-            port: env::var("WAKASYNC_PORT")
+            port: env::var("MULTIWAKA_PORT")
                 .unwrap_or_else(|_| "1234".to_string())
                 .parse()
                 .expect("Port invalide"),
