@@ -1,7 +1,6 @@
 enum Color {
     Gray,
     Purple,
-    Yellow,
     Red,
 }
 
@@ -12,7 +11,6 @@ impl Logger {
         let start_char = match color {
             Color::Gray => "\x1B[90m",
             Color::Purple => "\x1B[35m",
-            Color::Yellow => "\x1B[33m",
             Color::Red => "\x1B[31m",
         };
 
@@ -42,10 +40,6 @@ impl Logger {
 
     pub fn highlight(text: &str) {
         Self::log(text, Some(Color::Purple));
-    }
-
-    pub fn warn(text: &str) {
-        Self::log(text, Some(Color::Yellow));
     }
 
     pub fn error(text: &str) {
