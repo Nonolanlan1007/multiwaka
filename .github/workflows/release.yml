@@ -1,0 +1,90 @@
+name: Release
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  semantic-release:
+    name: Semantic Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v6
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+            semantic-release-cargo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-binary:
+    name: Build Binary
+    needs: semantic-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install rust stable toolchain
+        run: rustup update stable && rustup default stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build project
+        run: cargo run --release
+      - name: Upload binary
+        uses: actions/upload-artifact@v6
+        with:
+          path: ./target/release/multi_waka
+          name: multi_waka_linux_x86
+          if-no-files-found: error
+
+  deb-package:
+    name: Create Debian package
+    needs:
+      - semantic-release
+      - build-binary
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        codename:
+          - trixie
+          - bookworm
+        platform:
+          - amd64
+    steps:
+      - name: Download binary
+        uses: actions/download-artifact@v6
+        with:
+          name: multi_waka_linux_x86
+      - name: Prepare to package
+        run: apt update && apt install checkinstall -y && chmod +x multi_waka
+      - uses: andy5995/gh-action-build-deb@v1
+        with:
+          args: |
+            --no-sign
+            --compression=xz
+          codename: ${{ matrix.codename }}
+          platform: ${{ matrix.platform }}
+
+      - name: Create sha256sum
+        run: |
+          DEB_FILENAME=$(basename `find output/*deb`)
+          echo "DEB_FILENAME=$DEB_FILENAME" >> $GITHUB_ENV
+          cd output
+          sha256sum "$DEB_FILENAME" > "../$DEB_FILENAME.sha256sum"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.DEB_FILENAME }}
+          path: |
+            output/*.deb
+            *deb.sha256sum
+          if-no-files-found: error
