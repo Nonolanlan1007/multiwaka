@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/Nonolanlan1007/multiwaka/compare/v1.0.2...v1.1.0) (2026-01-27)
+
+
+### Bug Fixes
+
+* fixed env var name ([3960b53](https://github.com/Nonolanlan1007/multiwaka/commit/3960b53b8c0ce7d914105c40182d153b3f7bd487))
+
+
+### Features
+
+* added docker image ([2bec22f](https://github.com/Nonolanlan1007/multiwaka/commit/2bec22f314457a0cf56e3b5719bdcfa415426529))
+
 ## [1.0.2](https://github.com/Nonolanlan1007/multiwaka/compare/v1.0.1...v1.0.2) (2026-01-27)
 
 
