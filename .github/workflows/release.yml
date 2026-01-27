@@ -40,7 +40,7 @@ jobs:
         run: rustup update stable && rustup default stable
       - uses: Swatinem/rust-cache@v2
       - name: Build project
-        run: cargo run --release
+        run: cargo build --release
       - name: Upload binary
         uses: actions/upload-artifact@v6
         with:
