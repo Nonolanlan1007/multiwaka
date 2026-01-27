@@ -66,8 +66,6 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: multi_waka_linux_x86
-      - name: Prepare to package
-        run: apt update && apt install checkinstall -y && chmod +x multi_waka
       - uses: andy5995/gh-action-build-deb@v1
         with:
           args: |
