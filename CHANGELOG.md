@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Nonolanlan1007/multiwaka/compare/v1.0.1...v1.0.2) (2026-01-27)
+
+
+### Bug Fixes
+
+* **ci:** fixed binary build step in release.yml ([35cbb0e](https://github.com/Nonolanlan1007/multiwaka/commit/35cbb0ea1e50783fffa6ead61e30716ba0de21df))
+
 ## [1.0.1](https://github.com/Nonolanlan1007/multiwaka/compare/v1.0.0...v1.0.1) (2026-01-27)
 
 # 1.0.0 (2026-01-27)
