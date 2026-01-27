@@ -1,0 +1,12 @@
+.idea
+.github
+.env
+target
+.gitignore
+.releaserc.json
+Dockerfile
+docker-compose.yml
+.dockerignore
+LICENSE
+CHANGELOG.md
+README.md

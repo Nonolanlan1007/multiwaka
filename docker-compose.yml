@@ -1,0 +1,13 @@
+services:
+  multiwaka:
+    image: ghcr.io/Nonolanlan1007/multiwaka:latest
+    container_name: MultiWaka
+    environment:
+      MULTIWAKA_URL_1: "https://wakatime.com/api/v1"
+      MULTIWAKA_KEY_1: "your_wakatime_key"
+      MULTIWAKA_URL_2: "https://hackatime.hackclub.com/api/hackatime/v1"
+      MULTIWAKA_KEY_2: "your_hack_a_time_key"
+      MULTIWAKA_DEBUG: false
+    restart: unless-stopped
+    ports:
+      - "1234:8080"

@@ -8,6 +8,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY_GHCR: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   semantic-release:
     name: Semantic Release
@@ -29,63 +37,42 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  build-binary:
-    name: Build Binary
-    needs: semantic-release
+  build-docker:
+    name: Build Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Install rust stable toolchain
-        run: rustup update stable && rustup default stable
-      - uses: Swatinem/rust-cache@v2
-      - name: Build project
-        run: cargo build --release
-      - name: Upload binary
-        uses: actions/upload-artifact@v6
-        with:
-          path: ./target/release/multi_waka
-          name: multi_waka_linux_x86
-          if-no-files-found: error
 
-  deb-package:
-    name: Create Debian package
-    needs:
-      - semantic-release
-      - build-binary
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        codename:
-          - trixie
-          - bookworm
-        platform:
-          - amd64
-    steps:
-      - name: Download binary
-        uses: actions/download-artifact@v6
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          name: multi_waka_linux_x86
-      - uses: andy5995/gh-action-build-deb@v1
-        with:
-          args: |
-            --no-sign
-            --compression=xz
-          codename: ${{ matrix.codename }}
-          platform: ${{ matrix.platform }}
+          registry: ${{ env.REGISTRY_GHCR }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create sha256sum
-        run: |
-          DEB_FILENAME=$(basename `find output/*deb`)
-          echo "DEB_FILENAME=$DEB_FILENAME" >> $GITHUB_ENV
-          cd output
-          sha256sum "$DEB_FILENAME" > "../$DEB_FILENAME.sha256sum"
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          name: ${{ env.DEB_FILENAME }}
-          path: |
-            output/*.deb
-            *deb.sha256sum
-          if-no-files-found: error
+          images: ${{ env.REGISTRY_GHCR }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=ref,event=branch
+            type=ref,event=pr
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/master' }}
+            type=sha
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
