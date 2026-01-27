@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Nonolanlan1007/multiwaka/compare/v1.1.0...v1.1.1) (2026-01-27)
+
+
+### Bug Fixes
+
+* **ci:** added job dependency in release.yml ([3f476ea](https://github.com/Nonolanlan1007/multiwaka/commit/3f476eabfdb117391ff7465747019b6a6a472b7e))
+
 # [1.1.0](https://github.com/Nonolanlan1007/multiwaka/compare/v1.0.2...v1.1.0) (2026-01-27)
 
 
