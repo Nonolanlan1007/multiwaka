@@ -20,6 +20,16 @@
     "@semantic-release/git",
     "@semantic-release/github",
     [
+      "@semantic-release/github",
+      {
+        "assets": [
+          { "path": "./multi_waka_ubuntu-latest", "label": "multiwaka_linux_x64" },
+          { "path": "./multi_waka_windows-latest", "label": "multiwaka_windows_x64" },
+          { "path": "./multi_waka_macos-latest", "label": "multiwaka_macos_arm64" }
+        ]
+      }
+    ],
+    [
       "semantic-release-cargo",
       {
         "allFeatures": true,
