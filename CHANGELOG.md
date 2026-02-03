@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/Nonolanlan1007/multiwaka/compare/v1.2.0...v1.2.1) (2026-02-03)
+
+
+### Bug Fixes
+
+* **ci:** fixed artifact path for windows build ([37bbeaa](https://github.com/Nonolanlan1007/multiwaka/commit/37bbeaa5f0828e83285c9724832b8842d7824bd5))
+* **ci:** removed pushes workflow trigger ([ac557f1](https://github.com/Nonolanlan1007/multiwaka/commit/ac557f1977bd7acba6077259af8a7c6f220fb473))
+
 # [1.2.0](https://github.com/Nonolanlan1007/multiwaka/compare/v1.1.1...v1.2.0) (2026-02-03)
 
 
