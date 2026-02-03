@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/Nonolanlan1007/multiwaka/compare/v1.1.1...v1.2.0) (2026-02-03)
+
+
+### Bug Fixes
+
+* **ci:** fixed artifact download ([24f1e28](https://github.com/Nonolanlan1007/multiwaka/commit/24f1e288eafdd7e2b9ce2ff7d844d913f1519af6))
+* **ci:** fixed artifact path for windows build ([b40b6a4](https://github.com/Nonolanlan1007/multiwaka/commit/b40b6a44634615a5a8604eb23295611a0a4a7e9b))
+* **ci:** fixed jobs dependency ([1e08579](https://github.com/Nonolanlan1007/multiwaka/commit/1e085794b21640367720fdaa5719d60d22fac9d7))
+
+
+### Features
+
+* **ci:** added binary build to release workflow ([fdbed80](https://github.com/Nonolanlan1007/multiwaka/commit/fdbed808c2593436eb92dcd46990c83bf43bb3a5))
+
 ## [1.1.1](https://github.com/Nonolanlan1007/multiwaka/compare/v1.1.0...v1.1.1) (2026-01-27)
 
 
