@@ -55,7 +55,9 @@ jobs:
 
       - uses: actions/upload-artifact@v6
         with:
-          path: ./target/release/multi_waka*
+          path: |
+            ./target/release/multi_waka
+            ./target/release/multi_waka.exe
           if-no-files-found: error
           name: multi_waka_${{ matrix.os }}
 
